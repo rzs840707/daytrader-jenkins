@@ -1,5 +1,10 @@
 node {
     dir('build') {
+        sh 'env'
+    println "Node env:"
+    println env.getEnvironment()
+    println "EnvVars:"
+    println new hudson.EnvVars()
         stage('Checkout') {
             checkout scm
         }
