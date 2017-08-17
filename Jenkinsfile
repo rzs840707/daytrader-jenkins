@@ -1,4 +1,4 @@
-node('mypod') {
+node {
     stage('Get a Maven project') {
         sh 'env'
         sh 'export http_proxy=http://172.21.254.254:3128/'
