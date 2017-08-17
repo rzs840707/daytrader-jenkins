@@ -1,8 +1,8 @@
 node {
     dir('build') {
         sh 'env'
-        sh 'EXPORT http_proxy=http://172.21.254.254:3128/'
-        sh 'EXPORT https_proxy=http://172.21.254.254:3128/'
+        sh 'export http_proxy=http://172.21.254.254:3128/'
+        sh 'export https_proxy=http://172.21.254.254:3128/'
         stage('Checkout') {
             checkout scm
         }
