@@ -1,8 +1,6 @@
 node {
     dir('build') {
         sh 'env'
-    println "Node env:"
-    println env.getEnvironment()
         stage('Checkout') {
             checkout scm
         }
