@@ -10,11 +10,8 @@ podTemplate(cloud: 'default', label: 'mypod', containers: [
             sh 'git config --global http.proxy http://172.21.254.254:3128'
             sh 'git config --global https.proxy http://172.21.254.254:3128'
             git 'https://github.com/jenkinsci/kubernetes-plugin.git'
-            container('maven') {
-                stage('Build a Maven project') {
-                    sh 'mvn -B clean install'
-                }
-            }
+            sh 'mvn -B clean install'
+                     
         }
     }
 }
