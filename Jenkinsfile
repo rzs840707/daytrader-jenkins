@@ -1,19 +1,19 @@
-node {
-    dir('build') {
-        sh 'env'
-        sh 'export http_proxy=http://172.21.254.254:3128/'
-        sh 'export https_proxy=http://172.21.254.254:3128/'
-        stage('Checkout') {
-            checkout scm
-        }
+podTemplate(label: 'mypod', containers: [
+    containerTemplate(name: 'maven', image: 'maven:3.3.9-jdk-8-alpine', ttyEnabled: true, command: 'cat'),
+    containerTemplate(name: 'golang', image: 'golang:1.8.0', ttyEnabled: true, command: 'cat')
+  ]) {
 
-        def WORK_DIR=pwd()
-
-        stage('Build / Unit Test') {
-            def MAVEN_BUILD=tool name: 'Maven 3.3.9', type: 'hudson.tasks.Maven$MavenInstallation'
-            echo "Driving build and unit tests using Maven $MAVEN_BUILD"
-            def JAVA8_HOME=tool name: 'JDK 1.8 (latest)', type: 'hudson.model.JDK'
-            echo "Running build and unit tests with Java $JAVA8_HOME"
+    node('mypod') {
+        stage('Get a Maven project') {
+            sh 'env'
+            sh 'export http_proxy=http://172.21.254.254:3128/'
+            sh 'export https_proxy=http://172.21.254.254:3128/' 
+            git 'https://github.com/jenkinsci/kubernetes-plugin.git'
+            container('maven') {
+                stage('Build a Maven project') {
+                    sh 'mvn -B clean install'
+                }
+            }
         }
     }
 }
